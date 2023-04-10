@@ -22,7 +22,7 @@ async def start_coma(message:types.Message):   # пришло сооьщение
     button_3="информация о компании"
     keyboard.add(button_3)
     button_4= "ознакомится с офисом и сотрудниками"
-    keyboard.add(button_4)"""
+    keyboard.add(button_4)
 
     await message.answer("что вы хотите сделать ?",reply_markup=keyboard)
 
@@ -43,7 +43,7 @@ async def vihod(message: types.Message):
 
 @dp.message_handler(Text(equals='информация о компании'))
 async def vihod(message: types.Message):
-    await message.reply("очень важная компания")
+    await message.reply("очень важная компания")"""
 
 if __name__=='__main__':
     executor.start_polling(dp)
