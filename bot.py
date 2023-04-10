@@ -17,12 +17,12 @@ async def start_coma(message:types.Message):   # пришло сооьщение
     keyboard=types.ReplyKeyboardMarkup()
     button_1 = types.KeyboardButton(text='Выход')
     keyboard.add(button_1)
-    button_2="обучится обязаностям"
+    """button_2="обучится обязаностям"
     keyboard.add(button_2)
     button_3="информация о компании"
     keyboard.add(button_3)
     button_4= "ознакомится с офисом и сотрудниками"
-    keyboard.add(button_4)
+    keyboard.add(button_4)"""
 
     await message.answer("что вы хотите сделать ?",reply_markup=keyboard)
 
