@@ -34,7 +34,7 @@ async def vihod(message: types.Message):
 @dp.message_handler(Text(equals='ознакомится с офисом и сотрудниками'))
 async def with_hidden_link(message: types.message):
     await message.answer(
-        f"{fmt.hide_link('https://cdn.discordapp.com/attachments/1093877856632852483/1094937349449859133/-2.png')}",parse_mode=types.ParseMode.HTML)
+        f"{fmt.hide_link('kartinka.png')}",parse_mode=types.ParseMode.HTML)
 
 
 @dp.message_handler(Text(equals='обучится обязаностям'))
