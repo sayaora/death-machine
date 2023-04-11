@@ -22,11 +22,11 @@ dp = Dispatcher(bot=bot)
 #     counter_true = 0
 
 
-mainWindow = InlineKeyboardMarkup().row(
-    InlineKeyboardButton(text="выход", callback_data='1'),
-    InlineKeyboardButton(text="Обучится обязаностям", callback_data='2'),
-    InlineKeyboardButton(text="информация о компании", callback_data='3'),
-    InlineKeyboardButton(text="ознакомиться с офисом и сотрудникам", callback_data='4'),
+mainWindow = InlineKeyboardMarkup().add(
+    InlineKeyboardButton(text="Обучиться обязаностям", callback_data='2'),
+    InlineKeyboardButton(text="Информация о компании", callback_data='3'),
+    InlineKeyboardButton(text="Ознакомиться с офисом и сотрудникам", callback_data='4'),
+    InlineKeyboardButton(text="Выход", callback_data='1')
 )
 
 
@@ -35,8 +35,7 @@ async def callback(message: Message):
     await bot.send_message(
         chat_id=message.from_user.id,
         reply_markup=escape,
-        text='досвиданья'
-
+        text='Досвиданья'
     )
 
 
@@ -45,7 +44,7 @@ async def callback(message: Message):
     await bot.send_message(
         chat_id=message.from_user.id,
         reply_markup=studing,
-        text='хорошо вот'
+        text='Обучиться обязаностям'
     )
 
 @dp.callback_query_handler(lambda c: c.data == '3')  # информация
@@ -53,7 +52,7 @@ async def callback(message: Message):
     await bot.send_message(
         chat_id=message.from_user.id,
         reply_markup=office,
-        text='офис и сотрудники'
+        text='Офис и сотрудники'
     )
 
 @dp.callback_query_handler(lambda c: c.data == '4')  # офис
@@ -74,7 +73,7 @@ async def callback(message: types.Message):
 
 
 escape = InlineKeyboardMarkup().row(
-    InlineKeyboardButton(text='в главное меню', callback_data='5')
+    InlineKeyboardButton(text='Главное меню', callback_data='5')
 )
 
 
@@ -83,15 +82,15 @@ async def callback(message: Message):
     await bot.send_message(
         chat_id=message.from_user.id,
         reply_markup=mainWindow,
-        text='привет'
+        text='Главное меню'
     )
 
 
 studing = InlineKeyboardMarkup().row(
-    InlineKeyboardButton(text='1тест', callback_data='a1'),
-    InlineKeyboardButton(text='2тест', callback_data='b1'),
-    InlineKeyboardButton(text='ссылка', callback_data='c1'),
-    InlineKeyboardButton(text='в глaавное меню', callback_data='5')
+    InlineKeyboardButton(text='Тест на знание сотрудников', callback_data='a1'),
+    InlineKeyboardButton(text='Тест на знание агенства', callback_data='b1'),
+    InlineKeyboardButton(text='Доп образование', callback_data='c1'),
+    InlineKeyboardButton(text='Глaавное меню', callback_data='5')
 )
 
 counter = 0
@@ -186,19 +185,19 @@ async def ikb_cb_handler(callback: types.CallbackQuery) -> None:
             await bot.send_message(
                 chat_id=user_id,
                 reply_markup=final,
-                text=f"вы набрали {counter_true} балла"
+                text=f"Вы набрали {counter_true} балла"
             )
         elif (counter_true == 1):
             await bot.send_message(
                 chat_id=user_id,
                 reply_markup=final,
-                text="вы набрали 1 балл"
+                text="Вы набрали 1 балл"
             )
         elif (counter_true == 0 or counter_true > 4):
             await bot.send_message(
                 chat_id=user_id,
                 reply_markup=final,
-                text=f"вы набрали {counter_true} баллов"
+                text=f"Вы набрали {counter_true} баллов"
             )
 
 @dp.callback_query_handler(lambda callback_query: callback_query.data.startswith('t'))
@@ -225,19 +224,19 @@ async def ikb_cb_handler(callback: types.CallbackQuery) -> None:
             await bot.send_message(
                 chat_id=user_id,
                 reply_markup=final,
-                text=f"вы набрали {counter_true} балла"
+                text=f"Вы набрали {counter_true} балла"
             )
         elif (counter_true == 1):
             await bot.send_message(
                 chat_id=user_id,
                 reply_markup=final,
-                text="вы набрали 1 балл"
+                text="Вы набрали 1 балл"
             )
         elif (counter_true == 0 or counter_true > 4):
             await bot.send_message(
                 chat_id=user_id,
                 reply_markup=final,
-                text=f"вы набрали {counter_true} баллов"
+                text=f"Вы набрали {counter_true} баллов"
             )
 
 
@@ -246,19 +245,19 @@ question_1 = InlineKeyboardMarkup().row(
     InlineKeyboardButton(text=questions_1[quest_ind + 2], callback_data=f't2'),
     InlineKeyboardButton(text=questions_1[quest_ind + 3], callback_data=f't3'),
     InlineKeyboardButton(text=questions_1[quest_ind + 4], callback_data=f't4'),
-    InlineKeyboardButton(text='в главное меню', callback_data='5')
+    InlineKeyboardButton(text='Главное меню', callback_data='5')
 )
 question_2 = InlineKeyboardMarkup().row(
     InlineKeyboardButton(text=questions_2[quest_ind + 1], callback_data=f't1'),
     InlineKeyboardButton(text=questions_2[quest_ind + 2], callback_data=f't2'),
     InlineKeyboardButton(text=questions_2[quest_ind + 3], callback_data=f't3'),
     InlineKeyboardButton(text=questions_2[quest_ind + 4], callback_data=f't4'),
-    InlineKeyboardButton(text='в главное меню', callback_data='5')
+    InlineKeyboardButton(text='Главное меню', callback_data='5')
 )
 
 final = InlineKeyboardMarkup().row(
-    InlineKeyboardButton(text='пройти снова', callback_data='a1'),
-    InlineKeyboardButton(text='в главное меню', callback_data='5')
+    InlineKeyboardButton(text='Пройти снова', callback_data='a1'),
+    InlineKeyboardButton(text='Главное меню', callback_data='5')
 )
 
 office = InlineKeyboardMarkup().row(
@@ -266,7 +265,7 @@ office = InlineKeyboardMarkup().row(
     InlineKeyboardButton(text='Рассписание', callback_data='b2'),
     InlineKeyboardButton(text='План офиса', callback_data='c2'),
     InlineKeyboardButton(text='Техподдержка', callback_data='d2'),
-    InlineKeyboardButton(text='в главное меню', callback_data='5')
+    InlineKeyboardButton(text='Главное меню', callback_data='5')
 )
 
 @dp.callback_query_handler(lambda c: c.data == 'a2')
@@ -318,24 +317,23 @@ async def callback(message: Message):
     await bot.send_message(
             chat_id=user_id,
             reply_markup=tehnical_support,
-            text=f"Техподдержа"
+            text=f"К кому вы хотите обратиться?"
         )
 
 
 tehnical_support = InlineKeyboardMarkup().row(
-    InlineKeyboardButton(text='Генеральный директор', callback_data='da2'),
+    InlineKeyboardButton(text='Генеральный директор', callback_data='da2'), # @Kruglikeugen
     InlineKeyboardButton(text='Тим лидер', callback_data='db2'), # @V1olet_Demon
     InlineKeyboardButton(text='Старший Backend разработчик', callback_data='dc2'), # @sayaora
-    InlineKeyboardButton(text='Главный бухгалтер', callback_data='dd2'),
-    InlineKeyboardButton(text='в главное меню', callback_data='5')
+    InlineKeyboardButton(text='Главный бухгалтер', callback_data='dd2'), 
+    InlineKeyboardButton(text='Главное меню', callback_data='5')
 )
 
 @dp.callback_query_handler(lambda c: c.data=='da2')
 async def with_hidden_link(message:Message):
     await bot.send_message(
         chat_id=message.from_user.id,
-        text=(f"{fmt.hide_link('https://stepik.org/catalog?utm_campaign=catalog_2022_04_08&utm_medium=stepik_courses&utm_source=stepik_landing_welcome_new')}"
-        f"Предлагаем пройти курсы повышения квалификации на платформе Stepik"),
+        text=(f"Генеральный директор - @Kruglikeugen"),
         parse_mode=types.ParseMode.HTML,
         reply_markup = tehnical_support
     )
@@ -344,7 +342,7 @@ async def with_hidden_link(message:Message):
 async def with_hidden_link(message:Message):
     await bot.send_message(
         chat_id=message.from_user.id,
-        text=(f"Терешин Роман - @V1olet_Demon"),
+        text=(f"Тим лидер - @V1olet_Demon"),
         parse_mode=types.ParseMode.HTML,
         reply_markup = tehnical_support
     )
@@ -353,7 +351,7 @@ async def with_hidden_link(message:Message):
 async def with_hidden_link(message:Message):
     await bot.send_message(
         chat_id=message.from_user.id,
-        text=(f"Абрамов Александр - @sayaora"),
+        text=(f"Старший Backend разработчик - @sayaora"),
         parse_mode=types.ParseMode.HTML,
         reply_markup = tehnical_support
     )
@@ -362,8 +360,7 @@ async def with_hidden_link(message:Message):
 async def with_hidden_link(message:Message):
     await bot.send_message(
         chat_id=message.from_user.id,
-        text=(f"{fmt.hide_link('https://stepik.org/catalog?utm_campaign=catalog_2022_04_08&utm_medium=stepik_courses&utm_source=stepik_landing_welcome_new')}"
-        f"Предлагаем пройти курсы повышения квалификации на платформе Stepik"),
+        text=(f"Главный бухгалтер - @IVIGllG"),
         parse_mode=types.ParseMode.HTML,
         reply_markup = tehnical_support
     )
