@@ -386,6 +386,10 @@ async def callback(message: Message):
 
 @dp.callback_query_handler(lambda c: c.data == 'd3')
 async def callback(message: Message):
+    await bot.send_photo(
+        chat_id=user_id,
+        photo=open('images\\support_emblem.png', 'rb')
+    )
     await bot.send_message(
             chat_id=user_id,
             reply_markup=tehnical_support,
