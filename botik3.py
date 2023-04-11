@@ -73,8 +73,14 @@ studing=InlineKeyboardMarkup().row(
 
 
 
-counter = 1
+counter = 0
 counter_true = 0
+
+questions = []
+with open("qwest_1.txt", encoding="utf-8") as r:
+            for i in r:
+                questions.append(i.split('\n')[0])
+quest_ind = 0
 
 #print(questions)
 
@@ -82,37 +88,68 @@ counter_true = 0
 @dp.callback_query_handler(lambda c: c.data == 'a1')
 async def callback(message: Message):
         global counter
+        global counter_true
+        global questions
+        global quest_ind
+        
+        quest_ind = 0
+        counter_true = 0
+        questions = []
+        with open("qwest_1.txt", encoding="utf-8") as r:
+            for i in r:
+                questions.append(i.split('\n')[0])
+
+        # if(quest_ind + 5 <= len(questions)):
+        #     for i in range(quest_ind, quest_ind + 5):
+        #         print(questions[i])
+
         await bot.send_message(
             chat_id=message.from_user.id,
             reply_markup=question,
-            text=f'вопрос {counter}'
+            text=f"{questions[quest_ind]}"
         )
+
 
 @dp.callback_query_handler(lambda callback_query: callback_query.data.startswith('t'))
 async def ikb_cb_handler(callback: types.CallbackQuery) -> None:
     global counter
     global counter_true
-    if(callback.data == 't1'):
-        counter += 1
+    global questions
+    global quest_ind
+
+    if(callback.data == f't{questions[quest_ind + 5]}'):
         counter_true += 1
-    elif(callback.data == 't2'):
-        counter += 1
-    print(counter)
-    await bot.send_message(
-        chat_id=user_id,
-        reply_markup=question,
-        text=f"Вопрос {counter}"
-    )
-        
-    print("Не работает")
+
+    quest_ind += 7
+    counter += 1
+    print(counter_true)
+    
+    if(quest_ind < len(questions)):
+        await bot.send_message(
+            chat_id=user_id,
+            reply_markup=question,
+            text=f"{questions[quest_ind]}"
+        )
+    else:
+        if(counter_true > 0):
+            await bot.send_message(
+                chat_id=user_id,
+                reply_markup=final,
+                text=f"вы набрали {counter_true} баллов"
+            )
+        else:
+            await bot.send_message(
+                chat_id=user_id,
+                reply_markup=final,
+                text=f"вы набрали {0} баллов"
+            )
 
 question=InlineKeyboardMarkup().row(
-        InlineKeyboardButton(text='1вар', callback_data=f't1'),
-        InlineKeyboardButton(text='2вар', callback_data=f't2'),
-        InlineKeyboardButton(text='3вар', callback_data=f't2'),
-        InlineKeyboardButton(text='в глaавное меню', callback_data='5')
+    InlineKeyboardButton(text=questions[quest_ind + 1], callback_data=f't1'),
+    InlineKeyboardButton(text=questions[quest_ind + 2], callback_data=f't2'),
+    InlineKeyboardButton(text=questions[quest_ind + 3], callback_data=f't3'),
+    InlineKeyboardButton(text='в глaавное меню', callback_data='5')
     )
-
 
 # @dp.callback_query_handler(lambda c: c == 't1')
 # async def increase(message: Message):
@@ -139,19 +176,18 @@ question=InlineKeyboardMarkup().row(
 #     FMSAdmin.states.count += 1
 
 
-print(question.values.items)
-
-@dp.callback_query_handler(lambda c:  c.data == 'c')
-async def callback(message: Message):
-    await bot.send_message(
-        chat_id=message.from_user.id,
-        reply_markup=final,
-        text=f"вы набрали {k} баллов"
-    )
+# @dp.callback_query_handler(lambda c:  c.data == 'c')
+# async def callback(message: Message):
+#     global counter_true
+#     await bot.send_message(
+#         chat_id=message.from_user.id,
+#         reply_markup=final,
+#         text=f"вы набрали {counter_true} баллов"
+#     )
 
 final=InlineKeyboardMarkup().row(
-InlineKeyboardButton(text='пройти снова', callback_data='a1'),
-InlineKeyboardButton(text='в глaавное меню', callback_data='5')
+    InlineKeyboardButton(text='пройти снова', callback_data='a1'),
+    InlineKeyboardButton(text='в глaавное меню', callback_data='5')
 )
 
 
@@ -164,25 +200,11 @@ async def callback_start(message:Message):
     global user_id
     user_id = message.from_user.id
 
-    questions = []
-    # for i in range(10):
-    #     questions[i] = [0]*5
-    #     for j in range(3):
-    #         questions[i][j] = j + 1
-
-    schet = 5
-    with open("qwest_1.txt", encoding="utf-8") as r:
-        for i in r:
-            questions.append(i.split('\n')[0])
-    max_schet = range(len(questions))
-    for i in range(schet, schet + 5):
-        print(questions[i])
-
     await bot.send_message(
-        chat_id=message.chat.id,
-        reply_markup=mainWindow,
-        text='привет'
-    )
+            chat_id=message.chat.id,
+            reply_markup=mainWindow,
+            text='привет'
+        )
 
 
 if __name__=='__main__':
