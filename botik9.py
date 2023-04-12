@@ -1,10 +1,4 @@
-import time
-import logging
-import json
-
 from aiogram import Bot, Dispatcher, executor, types  # из айограма нужные библиотеки
-from aiogram.dispatcher.filters import Text
-from aiogram.dispatcher.filters.state import State, StatesGroup
 # from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.types import CallbackQuery, Message, InlineKeyboardButton, InlineKeyboardMarkup
 import aiogram.utils.markdown as fmt
@@ -12,15 +6,8 @@ import asyncio
 
 TOKEN = "6296077569:AAGFXEBgyWlbaTIUNQ0lU2ZTpfa-ZHFKnw0"
 
-# storage = MemoryStorage
-
 bot = Bot(token=TOKEN)
 dp = Dispatcher(bot=bot)
-
-# class FMSAdmin(StatesGroup):
-#     counter = 0
-#     counter_true = 0
-
 
 mainWindow = InlineKeyboardMarkup(row_width=1).add(
     InlineKeyboardButton(text="Обучиться обязаностям", callback_data='2'),
@@ -76,14 +63,6 @@ async def callback(message: types.Message):
         text=f'Офис и сотрудники\nНабрано {bals} из {bals_flag} баллов'
     )
 
-# @dp.callback_query_handler(lambda c: c.data == '4')  # вывод картинки
-# async def callback(message: types.Message):
-#     await bot.send_photo(
-#         chat_id=message.from_user.id,
-#         reply_markup=mainWindow,
-#         photo=open('kartinka.png', 'rb')
-#     )
-
 
 escape = InlineKeyboardMarkup(row_width=1).add(
     InlineKeyboardButton(text='Главное меню', callback_data='5')
@@ -110,27 +89,16 @@ studing = InlineKeyboardMarkup(row_width=1).add(
     InlineKeyboardButton(text='Глaвное меню', callback_data='5')
 )
 
+next_tab_studing = InlineKeyboardMarkup(row_width=1).add(
+    InlineKeyboardButton(text='Доп образование', callback_data='2')
+)
+
 counter = 0
 counter_true = 0
+quest_ind = 0
 
 global questions
 questions = []
-
-quest_ind = 0
-
-
-# async def increase_q(pre_counter):
-#     global quest_ind
-#     if(pre_counter == 4):
-#         quest_ind -= 3
-#         quest_ind += 7
-#         return quest_ind - 7 + 4
-#     else:
-#         quest_ind += 1
-#         return quest_ind
-
-
-# print(questions)
 
 
 @dp.callback_query_handler(lambda c: c.data == 'a1')
@@ -156,10 +124,10 @@ async def callback(message: Message):
     await bot.send_message(
         chat_id=message.from_user.id,
         reply_markup = InlineKeyboardMarkup(row_width=1).add(
-            InlineKeyboardButton(text=f"{questions[quest_ind + 1]}", callback_data=f't1'),
-            InlineKeyboardButton(text=f"{questions[quest_ind + 2]}", callback_data=f't2'),
-            InlineKeyboardButton(text=f"{questions[quest_ind + 3]}", callback_data=f't3'),
-            InlineKeyboardButton(text=f"{questions[quest_ind + 4]}", callback_data=f't4'),
+            InlineKeyboardButton(text=f"{questions[quest_ind + 1]}", callback_data=f't_1_1'),
+            InlineKeyboardButton(text=f"{questions[quest_ind + 2]}", callback_data=f't_1_2'),
+            InlineKeyboardButton(text=f"{questions[quest_ind + 3]}", callback_data=f't_1_3'),
+            InlineKeyboardButton(text=f"{questions[quest_ind + 4]}", callback_data=f't_1_4'),
             InlineKeyboardButton(text='Вернуться назад', callback_data='2')
         ),
         text=f"{questions[quest_ind]}"
@@ -189,10 +157,10 @@ async def callback(message: Message):
     await bot.send_message(
         chat_id=message.from_user.id,
         reply_markup = InlineKeyboardMarkup(row_width=1).add(
-            InlineKeyboardButton(text=questions[quest_ind + 1], callback_data=f't1'),
-            InlineKeyboardButton(text=questions[quest_ind + 2], callback_data=f't2'),
-            InlineKeyboardButton(text=questions[quest_ind + 3], callback_data=f't3'),
-            InlineKeyboardButton(text=questions[quest_ind + 4], callback_data=f't4'),
+            InlineKeyboardButton(text=questions[quest_ind + 1], callback_data=f't_2_1'),
+            InlineKeyboardButton(text=questions[quest_ind + 2], callback_data=f't_2_2'),
+            InlineKeyboardButton(text=questions[quest_ind + 3], callback_data=f't_2_3'),
+            InlineKeyboardButton(text=questions[quest_ind + 4], callback_data=f't_2_4'),
             InlineKeyboardButton(text='Вернуться назад', callback_data='2')
         ),
         text=f"{questions[quest_ind]}"
@@ -200,14 +168,14 @@ async def callback(message: Message):
     
 
 
-@dp.callback_query_handler(lambda callback_query: callback_query.data.startswith('t'))
+@dp.callback_query_handler(lambda callback_query: callback_query.data.startswith('t_1'))
 async def ikb_cb_handler(callback: types.CallbackQuery) -> None:
     global counter
     global counter_true
     global questions
     global quest_ind
 
-    if (callback.data == f't{questions[quest_ind + 5]}'):
+    if (callback.data == f't_1_{questions[quest_ind + 5]}'):
         counter_true += 1
 
     quest_ind += 7
@@ -221,10 +189,10 @@ async def ikb_cb_handler(callback: types.CallbackQuery) -> None:
         await bot.send_message(
             chat_id=callback.from_user.id,
             reply_markup = InlineKeyboardMarkup(row_width=1).add(
-                InlineKeyboardButton(text=f"{questions[quest_ind + 1]}", callback_data=f't1'),
-                InlineKeyboardButton(text=f"{questions[quest_ind + 2]}", callback_data=f't2'),
-                InlineKeyboardButton(text=f"{questions[quest_ind + 3]}", callback_data=f't3'),
-                InlineKeyboardButton(text=f"{questions[quest_ind + 4]}", callback_data=f't4'),
+                InlineKeyboardButton(text=f"{questions[quest_ind + 1]}", callback_data=f't_1_1'),
+                InlineKeyboardButton(text=f"{questions[quest_ind + 2]}", callback_data=f't_1_2'),
+                InlineKeyboardButton(text=f"{questions[quest_ind + 3]}", callback_data=f't_1_3'),
+                InlineKeyboardButton(text=f"{questions[quest_ind + 4]}", callback_data=f't_1_4'),
                 InlineKeyboardButton(text='Вернуться назад', callback_data='2')
             ),
             text=f"{questions[quest_ind]}"
@@ -249,31 +217,31 @@ async def ikb_cb_handler(callback: types.CallbackQuery) -> None:
         if (counter_true > 1 and counter_true <= 4):
             await bot.send_message(
                 chat_id=callback.from_user.id,
-                reply_markup=final,
+                reply_markup=final_1,
                 text=f"Вы набрали {counter_true} балла"
             )
         elif (counter_true == 1):
             await bot.send_message(
                 chat_id=callback.from_user.id,
-                reply_markup=final,
+                reply_markup=final_1,
                 text="Вы набрали 1 балл"
             )
         elif (counter_true == 0 or counter_true > 4):
             await bot.send_message(
                 chat_id=callback.from_user.id,
-                reply_markup=final,
+                reply_markup=final_1,
                 text=f"Вы набрали {counter_true} баллов"
             )
     
 
-@dp.callback_query_handler(lambda callback_query: callback_query.data.startswith('t'))
+@dp.callback_query_handler(lambda callback_query: callback_query.data.startswith('t_2'))
 async def ikb_cb_handler(callback: types.CallbackQuery) -> None:
     global counter
     global counter_true
     global questions
     global quest_ind
 
-    if (callback.data == f't{questions[quest_ind + 5]}'):
+    if (callback.data == f't_2_{questions[quest_ind + 5]}'):
         counter_true += 1
 
     quest_ind += 7
@@ -287,10 +255,10 @@ async def ikb_cb_handler(callback: types.CallbackQuery) -> None:
         await bot.send_message(
             chat_id=callback.from_user.id,
             reply_markup = InlineKeyboardMarkup(row_width=1).add(
-                InlineKeyboardButton(text=questions[quest_ind + 1], callback_data=f't1'),
-                InlineKeyboardButton(text=questions[quest_ind + 2], callback_data=f't2'),
-                InlineKeyboardButton(text=questions[quest_ind + 3], callback_data=f't3'),
-                InlineKeyboardButton(text=questions[quest_ind + 4], callback_data=f't4'),
+                InlineKeyboardButton(text=questions[quest_ind + 1], callback_data=f't_2_1'),
+                InlineKeyboardButton(text=questions[quest_ind + 2], callback_data=f't_2_2'),
+                InlineKeyboardButton(text=questions[quest_ind + 3], callback_data=f't_2_3'),
+                InlineKeyboardButton(text=questions[quest_ind + 4], callback_data=f't_2_4'),
                 InlineKeyboardButton(text='Вернуться назад', callback_data='2')
             ),
             text=f"{questions[quest_ind]}"
@@ -315,19 +283,19 @@ async def ikb_cb_handler(callback: types.CallbackQuery) -> None:
         if (counter_true > 1 and counter_true <= 4):
             await bot.send_message(
                 chat_id=callback.from_user.id,
-                reply_markup=final,
+                reply_markup=final_2,
                 text=f"Вы набрали {counter_true} балла"
             )
         elif (counter_true == 1):
             await bot.send_message(
                 chat_id=callback.from_user.id,
-                reply_markup=final,
+                reply_markup=final_2,
                 text="Вы набрали 1 балл"
             )
         elif (counter_true == 0 or counter_true > 4):
             await bot.send_message(
                 chat_id=callback.from_user.id,
-                reply_markup=final,
+                reply_markup=final_2,
                 text=f"Вы набрали {counter_true} баллов"
             )
 
@@ -347,9 +315,14 @@ async def ikb_cb_handler(callback: types.CallbackQuery) -> None:
 #     InlineKeyboardButton(text='Главное меню', callback_data='5')
 # )
 
-final = InlineKeyboardMarkup(row_width=1).add(
+final_1 = InlineKeyboardMarkup(row_width=1).add(
     InlineKeyboardButton(text='Пройти снова', callback_data='a1'),
-    InlineKeyboardButton(text='Главное меню', callback_data='5')
+    InlineKeyboardButton(text='Меню обучения', callback_data='2')
+)
+
+final_2 = InlineKeyboardMarkup(row_width=1).add(
+    InlineKeyboardButton(text='Пройти снова', callback_data='b1'),
+    InlineKeyboardButton(text='Меню обучения', callback_data='2')
 )
 
 
@@ -360,7 +333,7 @@ async def with_hidden_link(message:Message):
         text=(f"{fmt.hide_link('https://stepik.org/catalog?utm_campaign=catalog_2022_04_08&utm_medium=stepik_courses&utm_source=stepik_landing_welcome_new')}"
         f"Предлагаем пройти курсы повышения квалификации на платформе Stepik"),
         parse_mode=types.ParseMode.HTML,
-        reply_markup = studing
+        reply_markup = next_tab_studing
     )
 
 # конец обучиться обязоностям
@@ -747,6 +720,10 @@ tehnical_support = InlineKeyboardMarkup(row_width=1).add(
     InlineKeyboardButton(text='Офис и сотрудники', callback_data='4')
 )
 
+next_tab_support = InlineKeyboardMarkup(row_width=1).add(
+    InlineKeyboardButton(text='Техподдержка', callback_data='d3')
+)
+
 @dp.callback_query_handler(lambda c: c.data=='da3')
 async def with_hidden_link(message:Message):
     await bot.send_photo(
@@ -757,7 +734,7 @@ async def with_hidden_link(message:Message):
         chat_id=message.from_user.id,
         text=(f"Генеральный директор - @Kruglikeugen"),
         parse_mode=types.ParseMode.HTML,
-        reply_markup = tehnical_support
+        reply_markup = next_tab_support
     )
 
 @dp.callback_query_handler(lambda c: c.data=='db3')
@@ -770,7 +747,7 @@ async def with_hidden_link(message:Message):
         chat_id=message.from_user.id,
         text=(f"Тим лидер - @V1olet_Demon"),
         parse_mode=types.ParseMode.HTML,
-        reply_markup = tehnical_support
+        reply_markup = next_tab_support
     )
 
 @dp.callback_query_handler(lambda c: c.data=='dc3')
@@ -783,7 +760,7 @@ async def with_hidden_link(message:Message):
         chat_id=message.from_user.id,
         text=(f"Старший Backend разработчик - @sayaora"),
         parse_mode=types.ParseMode.HTML,
-        reply_markup = tehnical_support
+        reply_markup = next_tab_support
     )
 
 @dp.callback_query_handler(lambda c: c.data=='dd3')
@@ -796,7 +773,7 @@ async def with_hidden_link(message:Message):
         chat_id=message.from_user.id,
         text=(f"Главный бухгалтер - @IVIGllG"),
         parse_mode=types.ParseMode.HTML,
-        reply_markup = tehnical_support
+        reply_markup = next_tab_support
     )
 
 
