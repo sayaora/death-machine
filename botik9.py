@@ -69,10 +69,11 @@ async def callback(message: types.Message):
         chat_id=message.from_user.id,
         photo=open(f'images\\office.png', 'rb')
     )
+
     await bot.send_message(
         chat_id=message.from_user.id,
         reply_markup=office,
-        text='Офис и сотрудники'
+        text=f'Офис и сотрудники\nНабрано {bals} из {bals_flag} баллов'
     )
 
 # @dp.callback_query_handler(lambda c: c.data == '4')  # вывод картинки
@@ -372,6 +373,10 @@ information = InlineKeyboardMarkup(row_width=1).add(
     InlineKeyboardButton('Главное меню',callback_data='5')
 )
 
+next_tab_information = InlineKeyboardMarkup(row_width=1).add(
+    InlineKeyboardButton('Информация',callback_data='3')
+)
+
 slogan = InlineKeyboardMarkup().row(
     InlineKeyboardButton('Биография',callback_data='aa2'),
     InlineKeyboardButton('Меню информации',callback_data='3')
@@ -399,10 +404,10 @@ async def callback(message:Message):
         for i in r:
             text_inormation += i
 
-    # await bot.send_photo(
-    #     chat_id=message.from_user.id,
-    #     photo=open(f'images\\info\\agency_history.png', 'rb')
-    # )
+    await bot.send_photo(
+        chat_id=message.from_user.id,
+        photo=open(f'images\\info\\history_picture_0.png', 'rb')
+    )
     await bot.send_message(
         chat_id=message.from_user.id,
         text=f"{text_inormation}\n",
@@ -415,6 +420,11 @@ async def callback(message:Message):
     with open("text\\biography.txt", encoding="utf-8") as r:
         for i in r:
             text_inormation += i
+
+    await bot.send_photo(
+        chat_id=message.from_user.id,
+        photo=open(f'images\\info\\history_picture_1.png', 'rb')
+    )
     await bot.send_message(
         chat_id=message.from_user.id,
         text=f"{text_inormation}\n",
@@ -427,6 +437,11 @@ async def callback(message:Message):
     with open("text\\countres.txt", encoding="utf-8") as r:
         for i in r:
             text_inormation += i
+
+    await bot.send_photo(
+        chat_id=message.from_user.id,
+        photo=open(f'images\\info\\history_picture_2.png', 'rb')
+    )
     await bot.send_message(
         chat_id=message.from_user.id,
         text=f"{text_inormation}\n",
@@ -439,23 +454,28 @@ async def callback(message:Message):
     with open("text\\work_information.txt", encoding="utf-8") as r:
         for i in r:
             text_inormation += i
+
+    await bot.send_photo(
+        chat_id=message.from_user.id,
+        photo=open(f'images\\info\\history_picture_3.png', 'rb')
+    )
     await bot.send_message(
         chat_id=message.from_user.id,
         text=f"{text_inormation}\n",
         reply_markup = work_info,
     )
 
-@dp.callback_query_handler(lambda c: c.data=='ad2') # Опыт работы
-async def callback(message:Message):
-    text_inormation = ""
-    with open("text\\work_information.txt", encoding="utf-8") as r:
-        for i in r:
-            text_inormation += i
-    await bot.send_message(
-        chat_id=message.from_user.id,
-        text=f"{text_inormation}\n",
-        reply_markup = work_info,
-    )
+# @dp.callback_query_handler(lambda c: c.data=='ad2') # Опыт работы
+# async def callback(message:Message):
+#     text_inormation = ""
+#     with open("text\\work_information.txt", encoding="utf-8") as r:
+#         for i in r:
+#             text_inormation += i
+#     await bot.send_message(
+#         chat_id=message.from_user.id,
+#         text=f"{text_inormation}\n",
+#         reply_markup = work_info,
+#     )
 
 
 
@@ -471,7 +491,7 @@ async def callback(message:Message):
     )
     await bot.send_message(
         chat_id=message.from_user.id,
-        reply_markup=information,
+        reply_markup = next_tab_information,
         text=f'{text_inormation}'
     )
 
@@ -494,6 +514,10 @@ async def callback(message:Message):
         for i in r:
             text_inormation += i
     
+    await bot.send_photo(
+        chat_id=message.from_user.id,
+        photo=open(f'images\\info\\product_line_picture_0.png', 'rb')
+    )
     await bot.send_message(
         chat_id=message.from_user.id,
         text=f"{text_inormation}\n",
@@ -507,6 +531,10 @@ async def callback(message:Message):
         for i in r:
             text_inormation += i
     
+    await bot.send_photo(
+        chat_id=message.from_user.id,
+        photo=open(f'images\\info\\product_line_picture_1.png', 'rb')
+    )
     await bot.send_message(
         chat_id=message.from_user.id,
         text=f"{text_inormation}\n",
@@ -519,6 +547,11 @@ async def callback(message:Message):
     with open("text\\product_line_3.txt", encoding="utf-8") as r:
         for i in r:
             text_inormation += i
+
+    await bot.send_photo(
+        chat_id=message.from_user.id,
+        photo=open(f'images\\info\\product_line_picture_2.png', 'rb')
+    )
     await bot.send_message(
         chat_id=message.from_user.id,
         text=f'{text_inormation}\n',
@@ -533,7 +566,7 @@ bals_flag_1 = False
 bals_flag_2 = False
 bals_flag_3 = False
 bals_flag_4 = False
-bals_flag = 4
+bals_flag = 10
 
 office = InlineKeyboardMarkup(row_width=1).add(
     InlineKeyboardButton(text='Сотрудники', callback_data='a3'),
@@ -543,7 +576,11 @@ office = InlineKeyboardMarkup(row_width=1).add(
     InlineKeyboardButton(text='Главное меню', callback_data='5')
 )
 
-@dp.callback_query_handler(lambda c: c.data == 'a3')
+next_tab_office = InlineKeyboardMarkup(row_width=1).add(
+    InlineKeyboardButton(text='Офис и сотрудники', callback_data='4'),
+)
+
+@dp.callback_query_handler(lambda c: c.data == 'a3') #сотрудники
 async def callback(message: Message):
     global bals
     global bals_flag
@@ -573,30 +610,32 @@ async def callback(message: Message):
             text=f"{office_text[i]}"
         )
     
-    if(bals + 1 < bals_flag and not bals_flag_1):
+    if(bals + 6 < bals_flag and not bals_flag_1):
         bals_flag_1 = True
-        bals += 1
+        bals += 6
         await bot.send_message(
-            chat_id = message.from_user.id,
-            text = f"Вы набрали {bals} из {bals_flag} баллов"
-        )
-    elif(not bals_flag_1 and bals + 1 == bals_flag):
-        bals_flag_1 = True
-        bals += 1
-        await bot.send_message(
-            chat_id = message.from_user.id,
-            text = f"Вы набрали максимум балов"
-        )
-
-    
-    await bot.send_message(
             chat_id=message.from_user.id,
-            reply_markup=office,
-            text=f"Офис и сотрудники"
+            reply_markup=next_tab_office,
+            text=f"Сотрудники\nВы набрали {bals} из {bals_flag} баллов"
         )
+    elif(not bals_flag_1 and bals + 6 == bals_flag):
+        bals_flag_1 = True
+        bals += 6
+        await bot.send_message(
+            chat_id = message.from_user.id,
+            reply_markup=next_tab_office,
+            text = f"Сотрудники\nВы набрали максимум балов"
+        )
+    else:
+        await bot.send_message(
+            chat_id=message.from_user.id,
+            reply_markup=next_tab_office,
+            text=f"Сотрудники"
+        )
+
     
 
-@dp.callback_query_handler(lambda c: c.data == 'b3')
+@dp.callback_query_handler(lambda c: c.data == 'b3') # расписание
 async def callback(message: Message):
     global bals
     global bals_flag
@@ -611,24 +650,26 @@ async def callback(message: Message):
         bals_flag_2 = True
         bals += 1
         await bot.send_message(
-            chat_id = message.from_user.id,
-            text = f"Вы набрали {bals} из {bals_flag} баллов"
+            chat_id=message.from_user.id,
+            reply_markup=next_tab_office,
+            text=f"Расписание\nВы набрали {bals} из {bals_flag} баллов"
         )
     elif(not bals_flag_2 and bals + 1 == bals_flag):
         bals_flag_2 = True
         bals += 1
         await bot.send_message(
             chat_id = message.from_user.id,
-            text = f"Вы набрали максимум балов"
+            reply_markup=next_tab_office,
+            text = f"Расписание\nВы набрали максимум балов"
         )
-
-    await bot.send_message(
+    else: 
+        await bot.send_message(
             chat_id=message.from_user.id,
-            reply_markup=office,
-            text=f"Офис и сотрудники"
+            reply_markup=next_tab_office,
+            text=f"Расписание"
         )
     
-@dp.callback_query_handler(lambda c: c.data == 'c3')
+@dp.callback_query_handler(lambda c: c.data == 'c3') # план офиса
 async def callback(message: Message):
     global bals
     global bals_flag
@@ -643,24 +684,27 @@ async def callback(message: Message):
         bals_flag_3 = True
         bals += 1
         await bot.send_message(
-            chat_id = message.from_user.id,
-            text = f"Вы набрали {bals} из {bals_flag} баллов"
+            chat_id=message.from_user.id,
+            reply_markup=next_tab_office,
+            text=f"План офиса\nВы набрали {bals} из {bals_flag} баллов"
         )
-    if(not bals_flag_3 and bals + 1 == bals_flag):
+    elif(not bals_flag_3 and bals + 1 == bals_flag):
         bals_flag_3 = True
         bals += 1
         await bot.send_message(
             chat_id = message.from_user.id,
-            text = f"Вы набрали максимум балов"
+            reply_markup=next_tab_office,
+            text = f"План офиса\nВы набрали максимум балов"
         )
-
-    await bot.send_message(
+    else: 
+        await bot.send_message(
             chat_id=message.from_user.id,
-            reply_markup=office,
-            text=f"Офис и сотрудники"
+            reply_markup=next_tab_office,
+            text=f"План офиса"
         )
+    
 
-@dp.callback_query_handler(lambda c: c.data == 'd3')
+@dp.callback_query_handler(lambda c: c.data == 'd3') # тех поддержка
 async def callback(message: Message):
     global bals
     global bals_flag
@@ -671,22 +715,24 @@ async def callback(message: Message):
         photo=open('images\\support.png', 'rb')
     )
 
-    if(bals + 1 < bals_flag and not bals_flag_4):
+    if(bals + 2 < bals_flag and not bals_flag_4):
         bals_flag_4 = True
-        bals += 1
+        bals += 2
+        await bot.send_message(
+            chat_id=message.from_user.id,
+            reply_markup=tehnical_support,
+            text=f"К кому вы хотите обратиться?\nВы набрали {bals} из {bals_flag} баллов"
+        )
+    elif(not bals_flag_4 and bals + 2 == bals_flag):
+        bals_flag_4 = True
+        bals += 2
         await bot.send_message(
             chat_id = message.from_user.id,
-            text = f"Вы набрали {bals} из {bals_flag} баллов"
+            reply_markup=tehnical_support,
+            text = f"Вы набрали максимум баллов"
         )
-    if(not bals_flag_4 and bals + 1 == bals_flag):
-        bals_flag_4 = True
-        bals += 1
+    else:
         await bot.send_message(
-            chat_id = message.from_user.id,
-            text = f"Вы набрали максимум балов"
-        )
-
-    await bot.send_message(
             chat_id=message.from_user.id,
             reply_markup=tehnical_support,
             text=f"К кому вы хотите обратиться?"
@@ -698,7 +744,7 @@ tehnical_support = InlineKeyboardMarkup(row_width=1).add(
     InlineKeyboardButton(text='Тим лидер', callback_data='db3'), # @V1olet_Demon
     InlineKeyboardButton(text='Старший Backend разработчик', callback_data='dc3'), # @sayaora
     InlineKeyboardButton(text='Главный бухгалтер', callback_data='dd3'), 
-    InlineKeyboardButton(text='Главное меню', callback_data='5')
+    InlineKeyboardButton(text='Офис и сотрудники', callback_data='4')
 )
 
 @dp.callback_query_handler(lambda c: c.data=='da3')
