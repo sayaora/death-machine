@@ -41,6 +41,10 @@ async def callback(message: Message):
 
 @dp.callback_query_handler(lambda c: c.data == '2')  # тест
 async def callback(message: Message):
+    await bot.send_photo(
+        chat_id = message.from_user.id,
+        photo = open("images\\learn_page.png", 'rb')
+    )
     await bot.send_message(
         chat_id=message.from_user.id,
         reply_markup=studing,
@@ -49,6 +53,10 @@ async def callback(message: Message):
 
 @dp.callback_query_handler(lambda c: c.data == '3')  # информация
 async def callback(message: Message):
+    await bot.send_photo(
+        chat_id=message.from_user.id,
+        photo=open(f'images\\info\\main_info.png', 'rb')
+    )
     await bot.send_message(
         chat_id=message.from_user.id,
         reply_markup=information,
@@ -57,6 +65,10 @@ async def callback(message: Message):
 
 @dp.callback_query_handler(lambda c: c.data == '4')  # офис
 async def callback(message: types.Message):
+    await bot.send_photo(
+        chat_id=message.from_user.id,
+        photo=open(f'images\\office.png', 'rb')
+    )
     await bot.send_message(
         chat_id=message.from_user.id,
         reply_markup=office,
@@ -79,6 +91,10 @@ escape = InlineKeyboardMarkup(row_width=1).add(
 
 @dp.callback_query_handler(lambda c: c.data == '5') # главное меню
 async def callback(message: Message):
+    await bot.send_photo(
+        chat_id=message.from_user.id,
+        photo=open('images\\agency_main.png', 'rb')
+    )
     await bot.send_message(
         chat_id=message.from_user.id,
         reply_markup=mainWindow,
@@ -90,7 +106,7 @@ studing = InlineKeyboardMarkup(row_width=1).add(
     InlineKeyboardButton(text='Тест на знание сотрудников', callback_data='a1'),
     InlineKeyboardButton(text='Тест на знание агенства', callback_data='b1'),
     InlineKeyboardButton(text='Доп образование', callback_data='c1'),
-    InlineKeyboardButton(text='Глaавное меню', callback_data='5')
+    InlineKeyboardButton(text='Глaвное меню', callback_data='5')
 )
 
 counter = 0
@@ -133,7 +149,7 @@ async def callback(message: Message):
         r.close()
 
     await bot.send_photo(
-                chat_id=user_id,
+                chat_id=message.from_user.id,
                 photo=open(f'images\\test_1\\t1_{counter}.png', 'rb')
             )
     await bot.send_message(
@@ -166,7 +182,7 @@ async def callback(message: Message):
     
 
     await bot.send_photo(
-                chat_id=user_id,
+                chat_id=message.from_user.id,
                 photo=open(f'images\\test_2\\t2_{counter}.png', 'rb')
             )
     await bot.send_message(
@@ -198,11 +214,11 @@ async def ikb_cb_handler(callback: types.CallbackQuery) -> None:
 
     if (quest_ind < len(questions)):
         await bot.send_photo(
-                chat_id=user_id,
-                photo=open(f'images\\test_1\\t1_{counter}.png', 'rb')
-            )
+            chat_id=callback.from_user.id,
+            photo=open(f'images\\test_1\\t1_{counter}.png', 'rb')
+        )
         await bot.send_message(
-            chat_id=user_id,
+            chat_id=callback.from_user.id,
             reply_markup = InlineKeyboardMarkup(row_width=1).add(
                 InlineKeyboardButton(text=f"{questions[quest_ind + 1]}", callback_data=f't1'),
                 InlineKeyboardButton(text=f"{questions[quest_ind + 2]}", callback_data=f't2'),
@@ -213,21 +229,37 @@ async def ikb_cb_handler(callback: types.CallbackQuery) -> None:
             text=f"{questions[quest_ind]}"
         )
     else:
+        if(counter_true < 7):
+            await bot.send_photo(
+            chat_id=callback.from_user.id,
+            photo=open(f'images\\defeat.png', 'rb')
+            )
+        elif(counter_true >= 7 and counter_true <= 9):
+            await bot.send_photo(
+            chat_id=callback.from_user.id,
+            photo=open(f'images\\normal_bal.png', 'rb')
+            )
+        elif(counter_true == 10):
+            await bot.send_photo(
+            chat_id=callback.from_user.id,
+            photo=open(f'images\\win.png', 'rb')
+            )
+        
         if (counter_true > 1 and counter_true <= 4):
             await bot.send_message(
-                chat_id=user_id,
+                chat_id=callback.from_user.id,
                 reply_markup=final,
                 text=f"Вы набрали {counter_true} балла"
             )
         elif (counter_true == 1):
             await bot.send_message(
-                chat_id=user_id,
+                chat_id=callback.from_user.id,
                 reply_markup=final,
                 text="Вы набрали 1 балл"
             )
         elif (counter_true == 0 or counter_true > 4):
             await bot.send_message(
-                chat_id=user_id,
+                chat_id=callback.from_user.id,
                 reply_markup=final,
                 text=f"Вы набрали {counter_true} баллов"
             )
@@ -248,11 +280,11 @@ async def ikb_cb_handler(callback: types.CallbackQuery) -> None:
 
     if (quest_ind < len(questions)):
         await bot.send_photo(
-                chat_id=user_id,
+                chat_id=callback.from_user.id,
                 photo=open(f'images\\test_2\\t2_{counter}.png', 'rb')
             )
         await bot.send_message(
-            chat_id=user_id,
+            chat_id=callback.from_user.id,
             reply_markup = InlineKeyboardMarkup(row_width=1).add(
                 InlineKeyboardButton(text=questions[quest_ind + 1], callback_data=f't1'),
                 InlineKeyboardButton(text=questions[quest_ind + 2], callback_data=f't2'),
@@ -263,21 +295,37 @@ async def ikb_cb_handler(callback: types.CallbackQuery) -> None:
             text=f"{questions[quest_ind]}"
         )
     else:
+        if(counter_true < 7):
+            await bot.send_photo(
+            chat_id=callback.from_user.id,
+            photo=open(f'images\\defeat.png', 'rb')
+            )
+        elif(counter_true >= 7 and counter_true <= 9):
+            await bot.send_photo(
+            chat_id=callback.from_user.id,
+            photo=open(f'images\\normal_bal.png', 'rb')
+            )
+        elif(counter_true == 10):
+            await bot.send_photo(
+            chat_id=callback.from_user.id,
+            photo=open(f'images\\win.png', 'rb')
+            )
+
         if (counter_true > 1 and counter_true <= 4):
             await bot.send_message(
-                chat_id=user_id,
+                chat_id=callback.from_user.id,
                 reply_markup=final,
                 text=f"Вы набрали {counter_true} балла"
             )
         elif (counter_true == 1):
             await bot.send_message(
-                chat_id=user_id,
+                chat_id=callback.from_user.id,
                 reply_markup=final,
                 text="Вы набрали 1 балл"
             )
         elif (counter_true == 0 or counter_true > 4):
             await bot.send_message(
-                chat_id=user_id,
+                chat_id=callback.from_user.id,
                 reply_markup=final,
                 text=f"Вы набрали {counter_true} баллов"
             )
@@ -302,6 +350,18 @@ final = InlineKeyboardMarkup(row_width=1).add(
     InlineKeyboardButton(text='Пройти снова', callback_data='a1'),
     InlineKeyboardButton(text='Главное меню', callback_data='5')
 )
+
+
+@dp.callback_query_handler(lambda c: c.data=='c1')
+async def with_hidden_link(message:Message):
+    await bot.send_message(
+        chat_id=message.from_user.id,
+        text=(f"{fmt.hide_link('https://stepik.org/catalog?utm_campaign=catalog_2022_04_08&utm_medium=stepik_courses&utm_source=stepik_landing_welcome_new')}"
+        f"Предлагаем пройти курсы повышения квалификации на платформе Stepik"),
+        parse_mode=types.ParseMode.HTML,
+        reply_markup = studing
+    )
+
 # конец обучиться обязоностям
 
 
@@ -309,25 +369,95 @@ information = InlineKeyboardMarkup(row_width=1).add(
     InlineKeyboardButton('Основная информация',callback_data='a2'),
     InlineKeyboardButton('Чем занимаемся',callback_data='b2'),
     InlineKeyboardButton('Продуктовая линейка',callback_data='c2'),
-    InlineKeyboardButton('Главное окно',callback_data='d2')
+    InlineKeyboardButton('Главное меню',callback_data='5')
 )
 
-@dp.callback_query_handler(lambda c: c.data=='a2') # Основная информация
+slogan = InlineKeyboardMarkup().row(
+    InlineKeyboardButton('Биография',callback_data='aa2'),
+    InlineKeyboardButton('Меню в информации',callback_data='3')
+)
+
+biography = InlineKeyboardMarkup().row(
+    InlineKeyboardButton('Города',callback_data='ab2'),
+    InlineKeyboardButton('Меню в информации',callback_data='3')
+)
+
+countres = InlineKeyboardMarkup().row(
+    InlineKeyboardButton('Сотрудники',callback_data='ac2'),
+    InlineKeyboardButton('Меню в информации',callback_data='3')
+)
+
+work_info = InlineKeyboardMarkup().row(
+    InlineKeyboardButton('Меню в информации',callback_data='3')
+)
+
+
+@dp.callback_query_handler(lambda c: c.data=='a2') # Lевиз
 async def callback(message:Message):
     text_inormation = ""
-    with open("text\\information.txt", encoding="utf-8") as r:
+    with open("text\\slogan.txt", encoding="utf-8") as r:
+        for i in r:
+            text_inormation += i
+
+    # await bot.send_photo(
+    #     chat_id=message.from_user.id,
+    #     photo=open(f'images\\info\\agency_history.png', 'rb')
+    # )
+    await bot.send_message(
+        chat_id=message.from_user.id,
+        text=f"{text_inormation}\n",
+        reply_markup = slogan,
+    )
+    
+@dp.callback_query_handler(lambda c: c.data=='aa2') # Биография
+async def callback(message:Message):
+    text_inormation = ""
+    with open("text\\biography.txt", encoding="utf-8") as r:
         for i in r:
             text_inormation += i
     await bot.send_message(
-        chat_id=user_id,
-        text=f"{text_inormation}\n"
+        chat_id=message.from_user.id,
+        text=f"{text_inormation}\n",
+        reply_markup = biography,
     )
-    
+
+@dp.callback_query_handler(lambda c: c.data=='ab2') # Города
+async def callback(message:Message):
+    text_inormation = ""
+    with open("text\\countres.txt", encoding="utf-8") as r:
+        for i in r:
+            text_inormation += i
     await bot.send_message(
         chat_id=message.from_user.id,
-        reply_markup=information,
-        text='Данные в файле'
+        text=f"{text_inormation}\n",
+        reply_markup = countres,
     )
+
+@dp.callback_query_handler(lambda c: c.data=='ac2') # Опыт работы
+async def callback(message:Message):
+    text_inormation = ""
+    with open("text\\work_information.txt", encoding="utf-8") as r:
+        for i in r:
+            text_inormation += i
+    await bot.send_message(
+        chat_id=message.from_user.id,
+        text=f"{text_inormation}\n",
+        reply_markup = work_info,
+    )
+
+@dp.callback_query_handler(lambda c: c.data=='ad2') # Опыт работы
+async def callback(message:Message):
+    text_inormation = ""
+    with open("text\\work_information.txt", encoding="utf-8") as r:
+        for i in r:
+            text_inormation += i
+    await bot.send_message(
+        chat_id=message.from_user.id,
+        text=f"{text_inormation}\n",
+        reply_markup = work_info,
+    )
+
+
 
 @dp.callback_query_handler(lambda c:c.data=='b2') # Чем занимаемся
 async def callback(message:Message):
@@ -335,31 +465,66 @@ async def callback(message:Message):
     with open("text\\affair.txt", encoding="utf-8") as r:
         for i in r:
             text_inormation += i
+    await bot.send_photo(
+        chat_id=message.from_user.id,
+        photo=open(f'images\\info\\core_buisness.png', 'rb')
+    )
     await bot.send_message(
         chat_id=message.from_user.id,
         reply_markup=information,
         text=f'{text_inormation}'
     )
+
+promotion_product = InlineKeyboardMarkup().row(
+    InlineKeyboardButton('создание сайтов',callback_data='ca2'),
+    InlineKeyboardButton('Меню в информации',callback_data='3')
+)
+create_site = InlineKeyboardMarkup().row(
+    InlineKeyboardButton('Поддержка сайтов',callback_data='cb2'),
+    InlineKeyboardButton('Меню в информации',callback_data='3')
+)
+support_site = InlineKeyboardMarkup().row(
+    InlineKeyboardButton('Меню в информации',callback_data='3'),
+)
 
 @dp.callback_query_handler(lambda c:c.data=='c2') # Продуктовая линейка
 async def callback(message:Message):
     text_inormation = ""
-    with open("text\\product_line.txt", encoding="utf-8") as r:
+    with open("text\\product_line_1.txt", encoding="utf-8") as r:
+        for i in r:
+            text_inormation += i
+    
+    await bot.send_message(
+        chat_id=message.from_user.id,
+        text=f"{text_inormation}\n",
+        reply_markup=promotion_product,
+    )
+
+@dp.callback_query_handler(lambda c: c.data=='ca2')
+async def callback(message:Message):
+    text_inormation = ""
+    with open("text\\product_line_2.txt", encoding="utf-8") as r:
+        for i in r:
+            text_inormation += i
+    
+    await bot.send_message(
+        chat_id=message.from_user.id,
+        text=f"{text_inormation}\n",
+        reply_markup=create_site
+    )
+
+@dp.callback_query_handler(lambda c: c.data=='cb2')
+async def callback(message:Message):
+    text_inormation = ""
+    with open("text\\product_line_3.txt", encoding="utf-8") as r:
         for i in r:
             text_inormation += i
     await bot.send_message(
         chat_id=message.from_user.id,
-        reply_markup=information,
-        text=f'{text_inormation}'
+        text=f'{text_inormation}\n',
+        reply_markup=support_site
     )
 
-@dp.callback_query_handler(lambda c: c.data == 'd2')
-async def callback(message: Message):
-    await bot.send_message(
-            chat_id=user_id,
-            reply_markup=mainWindow,
-            text=f"Главное окно"
-        )
 
 # конец информация об агенстве
 
@@ -383,34 +548,34 @@ async def callback(message: Message):
 
         if(i != 0 and i % 2 == 0):
             await bot.send_photo(
-                chat_id=user_id,
-                photo=open(f'images\office_{i//2}.png', 'rb')
+                chat_id=message.from_user.id,
+                photo=open(f'images\office\office_{i//2}.png', 'rb')
             )
         elif(i == 0 and i % 2 == 0):
             await bot.send_photo(
-                chat_id=user_id,
-                photo=open(f'images\office_{0}.png', 'rb')
+                chat_id=message.from_user.id,
+                photo=open(f'images\office\office_{0}.png', 'rb')
             )
 
         await bot.send_message(
-            chat_id=user_id,
+            chat_id=message.from_user.id,
             text=f"{office_text[i]}"
         )
     await bot.send_message(
-            chat_id=user_id,
-            reply_markup=mainWindow,
-            text=f"Главное окно"
+            chat_id=message.from_user.id,
+            reply_markup=office,
+            text=f"Офис и сотрудники"
         )
     
 
 @dp.callback_query_handler(lambda c: c.data == 'b3')
 async def callback(message: Message):
     await bot.send_photo(
-        chat_id=user_id,
+        chat_id=message.from_user.id,
         photo=open('images\schedule.png', 'rb')
     )
     await bot.send_message(
-            chat_id=user_id,
+            chat_id=message.from_user.id,
             reply_markup=office,
             text=f"Офис и сотрудники"
         )
@@ -418,11 +583,11 @@ async def callback(message: Message):
 @dp.callback_query_handler(lambda c: c.data == 'c3')
 async def callback(message: Message):
     await bot.send_photo(
-        chat_id=user_id,
-        photo=open('images\office_map.png', 'rb')
+        chat_id=message.from_user.id,
+        photo=open('images\office\office_map.png', 'rb')
     )
     await bot.send_message(
-            chat_id=user_id,
+            chat_id=message.from_user.id,
             reply_markup=office,
             text=f"Офис и сотрудники"
         )
@@ -430,11 +595,11 @@ async def callback(message: Message):
 @dp.callback_query_handler(lambda c: c.data == 'd3')
 async def callback(message: Message):
     await bot.send_photo(
-        chat_id=user_id,
-        photo=open('images\\support_emblem.png', 'rb')
+        chat_id=message.from_user.id,
+        photo=open('images\\support.png', 'rb')
     )
     await bot.send_message(
-            chat_id=user_id,
+            chat_id=message.from_user.id,
             reply_markup=tehnical_support,
             text=f"К кому вы хотите обратиться?"
         )
@@ -450,6 +615,10 @@ tehnical_support = InlineKeyboardMarkup(row_width=1).add(
 
 @dp.callback_query_handler(lambda c: c.data=='da3')
 async def with_hidden_link(message:Message):
+    await bot.send_photo(
+        chat_id = message.from_user.id,
+        photo = open("images\\tehnical_support\\kruglikeugen.png" , 'rb')
+    )
     await bot.send_message(
         chat_id=message.from_user.id,
         text=(f"Генеральный директор - @Kruglikeugen"),
@@ -459,6 +628,10 @@ async def with_hidden_link(message:Message):
 
 @dp.callback_query_handler(lambda c: c.data=='db3')
 async def with_hidden_link(message:Message):
+    await bot.send_photo(
+        chat_id = message.from_user.id,
+        photo = open("images\\tehnical_support\\V1olet_Demon.png" , 'rb')
+    )
     await bot.send_message(
         chat_id=message.from_user.id,
         text=(f"Тим лидер - @V1olet_Demon"),
@@ -468,6 +641,10 @@ async def with_hidden_link(message:Message):
 
 @dp.callback_query_handler(lambda c: c.data=='dc3')
 async def with_hidden_link(message:Message):
+    await bot.send_photo(
+        chat_id = message.from_user.id,
+        photo = open("images\\tehnical_support\\sayaora.png" , 'rb')
+    )
     await bot.send_message(
         chat_id=message.from_user.id,
         text=(f"Старший Backend разработчик - @sayaora"),
@@ -477,6 +654,10 @@ async def with_hidden_link(message:Message):
 
 @dp.callback_query_handler(lambda c: c.data=='dd3')
 async def with_hidden_link(message:Message):
+    await bot.send_photo(
+        chat_id = message.from_user.id,
+        photo = open("images\\tehnical_support\\IVIGllG.png" , 'rb')
+    )
     await bot.send_message(
         chat_id=message.from_user.id,
         text=(f"Главный бухгалтер - @IVIGllG"),
@@ -488,9 +669,10 @@ async def with_hidden_link(message:Message):
 
 @dp.message_handler(commands=['start'])
 async def callback_start(message: Message):
-    global user_id
-    user_id = message.from_user.id
-
+    await bot.send_photo(
+        chat_id=message.from_user.id,
+        photo=open('images\\agency_main.png', 'rb')
+    )
     await bot.send_message(
         chat_id=message.chat.id,
         reply_markup=mainWindow,
