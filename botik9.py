@@ -374,21 +374,21 @@ information = InlineKeyboardMarkup(row_width=1).add(
 
 slogan = InlineKeyboardMarkup().row(
     InlineKeyboardButton('Биография',callback_data='aa2'),
-    InlineKeyboardButton('Меню в информации',callback_data='3')
+    InlineKeyboardButton('Меню информации',callback_data='3')
 )
 
 biography = InlineKeyboardMarkup().row(
     InlineKeyboardButton('Города',callback_data='ab2'),
-    InlineKeyboardButton('Меню в информации',callback_data='3')
+    InlineKeyboardButton('Меню информации',callback_data='3')
 )
 
 countres = InlineKeyboardMarkup().row(
     InlineKeyboardButton('Сотрудники',callback_data='ac2'),
-    InlineKeyboardButton('Меню в информации',callback_data='3')
+    InlineKeyboardButton('Меню информации',callback_data='3')
 )
 
 work_info = InlineKeyboardMarkup().row(
-    InlineKeyboardButton('Меню в информации',callback_data='3')
+    InlineKeyboardButton('Меню информации',callback_data='3')
 )
 
 
@@ -477,14 +477,14 @@ async def callback(message:Message):
 
 promotion_product = InlineKeyboardMarkup().row(
     InlineKeyboardButton('создание сайтов',callback_data='ca2'),
-    InlineKeyboardButton('Меню в информации',callback_data='3')
+    InlineKeyboardButton('Меню информации',callback_data='3')
 )
 create_site = InlineKeyboardMarkup().row(
     InlineKeyboardButton('Поддержка сайтов',callback_data='cb2'),
-    InlineKeyboardButton('Меню в информации',callback_data='3')
+    InlineKeyboardButton('Меню информации',callback_data='3')
 )
 support_site = InlineKeyboardMarkup().row(
-    InlineKeyboardButton('Меню в информации',callback_data='3'),
+    InlineKeyboardButton('Меню информации',callback_data='3'),
 )
 
 @dp.callback_query_handler(lambda c:c.data=='c2') # Продуктовая линейка
@@ -528,6 +528,13 @@ async def callback(message:Message):
 
 # конец информация об агенстве
 
+bals = 0
+bals_flag_1 = False
+bals_flag_2 = False
+bals_flag_3 = False
+bals_flag_4 = False
+bals_flag = 4
+
 office = InlineKeyboardMarkup(row_width=1).add(
     InlineKeyboardButton(text='Сотрудники', callback_data='a3'),
     InlineKeyboardButton(text='Рассписание', callback_data='b3'),
@@ -538,6 +545,10 @@ office = InlineKeyboardMarkup(row_width=1).add(
 
 @dp.callback_query_handler(lambda c: c.data == 'a3')
 async def callback(message: Message):
+    global bals
+    global bals_flag
+    global bals_flag_1
+
     office_text = []
     with open("text\office.txt", encoding="utf-8") as r:
         for i in r:
@@ -561,6 +572,23 @@ async def callback(message: Message):
             chat_id=message.from_user.id,
             text=f"{office_text[i]}"
         )
+    
+    if(bals + 1 < bals_flag and not bals_flag_1):
+        bals_flag_1 = True
+        bals += 1
+        await bot.send_message(
+            chat_id = message.from_user.id,
+            text = f"Вы набрали {bals} из {bals_flag} баллов"
+        )
+    elif(not bals_flag_1 and bals + 1 == bals_flag):
+        bals_flag_1 = True
+        bals += 1
+        await bot.send_message(
+            chat_id = message.from_user.id,
+            text = f"Вы набрали максимум балов"
+        )
+
+    
     await bot.send_message(
             chat_id=message.from_user.id,
             reply_markup=office,
@@ -570,10 +598,30 @@ async def callback(message: Message):
 
 @dp.callback_query_handler(lambda c: c.data == 'b3')
 async def callback(message: Message):
+    global bals
+    global bals_flag
+    global bals_flag_2
+    
     await bot.send_photo(
         chat_id=message.from_user.id,
         photo=open('images\schedule.png', 'rb')
     )
+
+    if(bals + 1 < bals_flag and not bals_flag_2):
+        bals_flag_2 = True
+        bals += 1
+        await bot.send_message(
+            chat_id = message.from_user.id,
+            text = f"Вы набрали {bals} из {bals_flag} баллов"
+        )
+    elif(not bals_flag_2 and bals + 1 == bals_flag):
+        bals_flag_2 = True
+        bals += 1
+        await bot.send_message(
+            chat_id = message.from_user.id,
+            text = f"Вы набрали максимум балов"
+        )
+
     await bot.send_message(
             chat_id=message.from_user.id,
             reply_markup=office,
@@ -582,10 +630,30 @@ async def callback(message: Message):
     
 @dp.callback_query_handler(lambda c: c.data == 'c3')
 async def callback(message: Message):
+    global bals
+    global bals_flag
+    global bals_flag_3
+
     await bot.send_photo(
         chat_id=message.from_user.id,
         photo=open('images\office\office_map.png', 'rb')
     )
+
+    if(bals + 1 < bals_flag and not bals_flag_3):
+        bals_flag_3 = True
+        bals += 1
+        await bot.send_message(
+            chat_id = message.from_user.id,
+            text = f"Вы набрали {bals} из {bals_flag} баллов"
+        )
+    if(not bals_flag_3 and bals + 1 == bals_flag):
+        bals_flag_3 = True
+        bals += 1
+        await bot.send_message(
+            chat_id = message.from_user.id,
+            text = f"Вы набрали максимум балов"
+        )
+
     await bot.send_message(
             chat_id=message.from_user.id,
             reply_markup=office,
@@ -594,10 +662,30 @@ async def callback(message: Message):
 
 @dp.callback_query_handler(lambda c: c.data == 'd3')
 async def callback(message: Message):
+    global bals
+    global bals_flag
+    global bals_flag_4
+
     await bot.send_photo(
         chat_id=message.from_user.id,
         photo=open('images\\support.png', 'rb')
     )
+
+    if(bals + 1 < bals_flag and not bals_flag_4):
+        bals_flag_4 = True
+        bals += 1
+        await bot.send_message(
+            chat_id = message.from_user.id,
+            text = f"Вы набрали {bals} из {bals_flag} баллов"
+        )
+    if(not bals_flag_4 and bals + 1 == bals_flag):
+        bals_flag_4 = True
+        bals += 1
+        await bot.send_message(
+            chat_id = message.from_user.id,
+            text = f"Вы набрали максимум балов"
+        )
+
     await bot.send_message(
             chat_id=message.from_user.id,
             reply_markup=tehnical_support,
