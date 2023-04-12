@@ -41,10 +41,6 @@ async def callback(message: Message):
 
 @dp.callback_query_handler(lambda c: c.data == '2')  # тест
 async def callback(message: Message):
-    global quest_ind
-    global counter_true
-    quest_ind = 0
-    counter_true = 0
     await bot.send_message(
         chat_id=message.from_user.id,
         reply_markup=studing,
@@ -130,9 +126,9 @@ async def callback(message: Message):
             questions_1.append(i.split('\n')[0])
     
 
-    # if (counter == 10):
-    #     counter = 0
-    #     quest_ind = 0
+    if (counter == 10):
+        counter = 0
+        quest_ind = 0
 
     await bot.send_message(
         chat_id=message.from_user.id,
