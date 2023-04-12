@@ -410,9 +410,9 @@ async def callback(message:Message):
         reply_markup=information,
         text=f'{text_inormation}'
     )
-
-@dp.callback_query_handler(lambda c:c.data=='c2') # Продуктовая линейка
-async def callback(message:Message):
+    
+@dp.callback_query_handler(lambda c: c.data == 'c2')  # Продуктовая линейка
+async def callback(message: Message):
     text_inormation = ""
     with open("text\\product_line.txt", encoding="utf-8") as r:
         for i in r:
@@ -423,8 +423,36 @@ async def callback(message:Message):
     )
     await bot.send_message(
         chat_id=message.from_user.id,
-        reply_markup=information,
-        text=f'{text_inormation}'
+        reply_markup=productnext,
+        text=f'что то о рекламе'
+    )
+productnext=InlineKeyboardMarkup(row_width=1).add(
+    InlineKeyboardButton('создание сайтов',callback_data='ca2'),
+    InlineKeyboardButton('вернутся в основную вкладку',callback_data='cd2')
+)
+productnext2=InlineKeyboardMarkup(row_width=1).add(
+    InlineKeyboardButton('Поддержка сайтов',callback_data='cb2'),
+    InlineKeyboardButton('вернутся в основую вкладку',callback_data='cd2')
+)
+finishview=InlineKeyboardMarkup(row_width=1).add(
+    InlineKeyboardButton('вернутся в основную вкладку',callback_data='cd2'),
+    InlineKeyboardButton('в главное меню',callback_data='5'),
+)
+
+@dp.callback_query_handler(lambda c: c.data=='ca2')
+async def callback(message:Message):
+    await bot.send_message(
+        chat_id=message.from_user.id,
+        reply_markup=productnext2,
+        text='что то там  о создании сайтов'
+    )
+
+@dp.callback_query_handler(lambda c: c.data=='cb2')
+async def callback(message:Message):
+    await bot.send_message(
+        chat_id=message.from_user.id,
+        reply_markup=finishview,
+        text='что то там  о поддержке сайтов'
     )
 
 # конец информация об агенстве
