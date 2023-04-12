@@ -96,17 +96,30 @@ studing = InlineKeyboardMarkup(row_width=1).add(
 counter = 0
 counter_true = 0
 
+global questions_1
 questions_1 = []
 with open("text\qwest_1.txt", encoding="utf-8") as r:
     for i in r:
         questions_1.append(i.split('\n')[0])
 
+global questions_2
 questions_2 = []
 with open("text\qwest_2.txt", encoding="utf-8") as r:
     for i in r:
         questions_2.append(i.split('\n')[0])
 
 quest_ind = 0
+
+
+async def increase_q(pre_counter):
+    global quest_ind
+    if(pre_counter == 4):
+        quest_ind -= 3
+        quest_ind += 7
+        return quest_ind - 7 + 4
+    else:
+        quest_ind += 1
+        return quest_ind
 
 
 # print(questions)
@@ -119,20 +132,24 @@ async def callback(message: Message):
     global questions_1
     global quest_ind
 
+    counter = 0
+    quest_ind = 0
     counter_true = 0
     questions_1 = []
     with open("text\qwest_1.txt", encoding="utf-8") as r:
         for i in r:
             questions_1.append(i.split('\n')[0])
-    
-
-    if (counter == 10):
-        counter = 0
-        quest_ind = 0
+        r.close()
 
     await bot.send_message(
         chat_id=message.from_user.id,
-        reply_markup=question_1,
+        reply_markup = InlineKeyboardMarkup(row_width=1).add(
+            InlineKeyboardButton(text=f"{questions_1[quest_ind + 1]}", callback_data=f't1'),
+            InlineKeyboardButton(text=f"{questions_1[quest_ind + 2]}", callback_data=f't2'),
+            InlineKeyboardButton(text=f"{questions_1[quest_ind + 3]}", callback_data=f't3'),
+            InlineKeyboardButton(text=f"{questions_1[quest_ind + 4]}", callback_data=f't4'),
+            InlineKeyboardButton(text='Главное меню', callback_data='5')
+        ),
         text=f"{questions_1[quest_ind]}"
     )
 
@@ -143,22 +160,32 @@ async def callback(message: Message):
     global questions_2
     global quest_ind
 
+    counter = 0
+    quest_ind = 0
     counter_true = 0
     questions = []
     with open("text\qwest_2.txt", encoding="utf-8") as r:
         for i in r:
             questions_2.append(i.split('\n')[0])
+        r.close()
     
 
-    if (counter == 10):
-        counter = 0
-        quest_ind = 0
+    # if (counter == 10):
+    #     counter = 0
+    #     quest_ind = 0
 
     await bot.send_message(
         chat_id=message.from_user.id,
-        reply_markup=question_2,
+        reply_markup = InlineKeyboardMarkup(row_width=1).add(
+            InlineKeyboardButton(text=questions_2[quest_ind + 1], callback_data=f't1'),
+            InlineKeyboardButton(text=questions_2[quest_ind + 2], callback_data=f't2'),
+            InlineKeyboardButton(text=questions_2[quest_ind + 3], callback_data=f't3'),
+            InlineKeyboardButton(text=questions_2[quest_ind + 4], callback_data=f't4'),
+            InlineKeyboardButton(text='Главное меню', callback_data='5')
+        ),
         text=f"{questions_2[quest_ind]}"
     )
+    
 
 
 @dp.callback_query_handler(lambda callback_query: callback_query.data.startswith('t'))
@@ -177,7 +204,13 @@ async def ikb_cb_handler(callback: types.CallbackQuery) -> None:
     if (quest_ind < len(questions_1)):
         await bot.send_message(
             chat_id=user_id,
-            reply_markup=question_1,
+            reply_markup = InlineKeyboardMarkup(row_width=1).add(
+                InlineKeyboardButton(text=f"{questions_1[quest_ind + 1]}", callback_data=f't1'),
+                InlineKeyboardButton(text=f"{questions_1[quest_ind + 2]}", callback_data=f't2'),
+                InlineKeyboardButton(text=f"{questions_1[quest_ind + 3]}", callback_data=f't3'),
+                InlineKeyboardButton(text=f"{questions_1[quest_ind + 4]}", callback_data=f't4'),
+                InlineKeyboardButton(text='Главное меню', callback_data='5')
+            ),
             text=f"{questions_1[quest_ind]}"
         )
     else:
@@ -199,6 +232,7 @@ async def ikb_cb_handler(callback: types.CallbackQuery) -> None:
                 reply_markup=final,
                 text=f"Вы набрали {counter_true} баллов"
             )
+    
 
 @dp.callback_query_handler(lambda callback_query: callback_query.data.startswith('t'))
 async def ikb_cb_handler(callback: types.CallbackQuery) -> None:
@@ -216,7 +250,13 @@ async def ikb_cb_handler(callback: types.CallbackQuery) -> None:
     if (quest_ind < len(questions_2)):
         await bot.send_message(
             chat_id=user_id,
-            reply_markup=question_2,
+            reply_markup = InlineKeyboardMarkup(row_width=1).add(
+                InlineKeyboardButton(text=questions_2[quest_ind + 1], callback_data=f't1'),
+                InlineKeyboardButton(text=questions_2[quest_ind + 2], callback_data=f't2'),
+                InlineKeyboardButton(text=questions_2[quest_ind + 3], callback_data=f't3'),
+                InlineKeyboardButton(text=questions_2[quest_ind + 4], callback_data=f't4'),
+                InlineKeyboardButton(text='Главное меню', callback_data='5')
+            ),
             text=f"{questions_2[quest_ind]}"
         )
     else:
@@ -239,14 +279,14 @@ async def ikb_cb_handler(callback: types.CallbackQuery) -> None:
                 text=f"Вы набрали {counter_true} баллов"
             )
 
-
 question_1 = InlineKeyboardMarkup(row_width=1).add(
-    InlineKeyboardButton(text=questions_1[quest_ind + 1], callback_data=f't1'),
-    InlineKeyboardButton(text=questions_1[quest_ind + 2], callback_data=f't2'),
-    InlineKeyboardButton(text=questions_1[quest_ind + 3], callback_data=f't3'),
-    InlineKeyboardButton(text=questions_1[quest_ind + 4], callback_data=f't4'),
-    InlineKeyboardButton(text='Главное меню', callback_data='5')
-)
+        InlineKeyboardButton(text=f"{questions_1[quest_ind + 1]}", callback_data=f't1'),
+        InlineKeyboardButton(text=f"{questions_1[quest_ind + 2]}", callback_data=f't2'),
+        InlineKeyboardButton(text=f"{questions_1[quest_ind + 3]}", callback_data=f't3'),
+        InlineKeyboardButton(text=f"{questions_1[quest_ind + 4]}", callback_data=f't4'),
+        InlineKeyboardButton(text='Главное меню', callback_data='5')
+    )
+
 question_2 = InlineKeyboardMarkup(row_width=1).add(
     InlineKeyboardButton(text=questions_2[quest_ind + 1], callback_data=f't1'),
     InlineKeyboardButton(text=questions_2[quest_ind + 2], callback_data=f't2'),
